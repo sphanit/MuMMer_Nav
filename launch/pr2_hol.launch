@@ -1,33 +1,40 @@
 <launch>
   <param name="/use_sim_time" value="true"/>
   <!-- start map_server with laas_adream map -->
-  <node name="map_server" pkg="map_server" type="map_server" args="$(find laas_navigation)/maps/laas_adream.yaml"/>
+  <node name="map_server" pkg="map_server" type="map_server" args="$(find morse_pr2_2dnav)/maps/laas_adream.yaml">
+  <param name="frame_id" value="map"/>  
+  </node>
 
   <!-- start acml for localization -->
   <node pkg="amcl" type="amcl" name="amcl" output="screen">
 		<rosparam file="$(find morse_pr2_2dnav)/config/amcl_params.yaml" command="load" />
  		<!-- We have a holonomic robot! Overwrite yaml config here! -->
-    <param name="odom_model_type"		value="omni"/>
-	  <param name="initial_pose_x" value="2.0"/>
-		<param name="initial_pose_y" value="2.0"/>
-		<param name="initial_pose_a" value="0.0"/>
+    <param name="odom_model_type" value="omni"/>
+	  <param name="initial_pose_x"  value="2.0"/>
+		<param name="initial_pose_y"  value="2.0"/>
+		<param name="initial_pose_a"  value="0.0"/>
 	</node>
 
-  <node pkg="move_base" type="move_base" respawn="false" name="move_base" output="screen">
+  <node pkg="move_base" type="move_base" name="move_base_node" output="screen">
       <rosparam file="$(find morse_pr2_2dnav)/config/costmap_common_params.yaml" command="load" ns="global_costmap" />
       <rosparam file="$(find morse_pr2_2dnav)/config/costmap_common_params.yaml" command="load" ns="local_costmap" />
-
-      <rosparam file="$(find morse_pr2_2dnav)/config/local_costmap_params.yaml" command="load" />
       <rosparam file="$(find morse_pr2_2dnav)/config/global_costmap_params.yaml" command="load" />
-      <rosparam file="$(find morse_pr2_2dnav)/config/base_local_planner_params.yaml" command="load" />
+      <rosparam file="$(find morse_pr2_2dnav)/config/local_costmap_params.yaml" command="load" />
+      <rosparam file="$(find morse_pr2_2dnav)/config/teb_local_planner_params.yaml" command="load"/>
 
-    <param name="base_global_planner" value="global_planner/GlobalPlanner" />
-    <param name="planner_frequency" value="1.0" />
-    <param name="planner_patience" value="5.0" />
+      <rosparam file="$(find morse_pr2_2dnav)/config/move_base_params.yaml" command="load" />
 
-    <param name="base_local_planner" value="teb_local_planner/TebLocalPlannerROS" />
-    <param name="controller_frequency" value="5.0" />
-    <param name="controller_patience" value="15.0" />
+      <param name="base_global_planner" value="global_planner/GlobalPlanner" />
+
+      <param name="base_local_planner" value="teb_local_planner/TebLocalPlannerROS" />
+
+
+      <rosparam file="$(find morse_pr2_2dnav)/config/costmap_converter_params.yaml" command="load"/>
+
+
+
   </node>
+
+  <include file="$(find morse_pr2_2dnav)/launch/rosbridge.launch"/>
 
 </launch>

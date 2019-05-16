@@ -1,29 +1,10 @@
-
-#---standard pioneer footprint---
-#---(in meters)---
-robot_radius: 0.34
-
-
-transform_tolerance: 0.2
-map_type: costmap
-
-obstacle_layer:
- enabled: true
- obstacle_range: 3.0
- raytrace_range: 4.0
- inflation_radius: 0.2
- track_unknown_space: true
- combination_method: 1
-
- observation_sources: /scan
- /scan: {data_type: LaserScan, sensor_frame: base_laser_link, expected_update_rate: 0.3, marking: true, clearing: true}
- footprint_clearing_enabled: false
-
-inflation_layer:
-  enabled:              true
-  cost_scaling_factor:  10.0  # exponential rate at which the obstacle cost drops off (default: 10)
-  inflation_radius:     0.4  # max. distance from an obstacle at which costs are incurred for planning paths.
-
-static_layer:
-  enabled:              true
-  map_topic:            "map"
+footprint_model: # types: "point", "circular", "two_circles", "line", "polygon"
+  type: "circular"
+  radius: 0.34 # for type "circular"
+  line_start: [-0.3, 0.0] # for type "line"
+  line_end: [0.3, 0.0] # for type "line"
+  front_offset: 0.2 # for type "two_circles"
+  front_radius: 0.2 # for type "two_circles"
+  rear_offset: 0.2 # for type "two_circles"
+  rear_radius: 0.2 # for type "two_circles"
+  vertices: [[-0.325, -0.325], [-0.325, 0.325], [0.325, 0.325], [0.46, 0.0], [0.325, -0.325]] # for type "polygon"
