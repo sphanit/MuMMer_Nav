@@ -20,7 +20,7 @@
       <rosparam file="$(find morse_pr2_2dnav)/config/costmap_common_params.yaml" command="load" ns="local_costmap" />
       <rosparam file="$(find morse_pr2_2dnav)/config/global_costmap_params.yaml" command="load" />
       <rosparam file="$(find morse_pr2_2dnav)/config/local_costmap_params.yaml" command="load" />
-      <rosparam file="$(find morse_pr2_2dnav)/config/teb_local_planner_params.yaml" command="load"/>
+      <rosparam file="$(find morse_pr2_2dnav)/config/teb_local_planner_params_new.yaml" command="load"/>
 
       <rosparam file="$(find morse_pr2_2dnav)/config/move_base_params.yaml" command="load" />
 
